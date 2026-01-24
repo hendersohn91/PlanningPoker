@@ -3,8 +3,8 @@ services:
         build:
             context: .
             args:
-                - http_proxy=$http_proxy
-                - https_proxy=$https_proxy
+                - http_proxy=${http_proxy:-}
+                - https_proxy=${https_proxy:-}
         container_name: planningpoker-app
         ports:
             - "4200:4200"
@@ -14,8 +14,8 @@ services:
         build:
             context: api/.
             args:
-                - http_proxy=$http_proxy
-                - https_proxy=$https_proxy
+                - http_proxy=${http_proxy:-}
+                - https_proxy=${https_proxy:-}
         container_name: planningpoker-backend
         volumes:
             - ./api/api.py:/usr/src/app/api.py

@@ -39,7 +39,11 @@
                             "src/styles.scss"
                         ],
                         "scripts": [],
-                        "browser": "src/main.ts"
+                        "browser": "src/main.ts",
+                        "inlineStyleLanguage": "scss",
+                        "optimization": {
+                            "fonts": false
+                        }
                     },
                     "configurations": {
                         "production": {
