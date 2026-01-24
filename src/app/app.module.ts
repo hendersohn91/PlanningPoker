@@ -39,15 +39,13 @@ function initializeApp(appConfig: ConfigService): () => Promise<void> {
 }
 
 @NgModule({ declarations: [
-        AppComponent,
         LoginComponent,
         PokerlistComponent,
         JiraStoryComponent,
         JiraNoteDialogComponent,
         CreateUserDialogComponent,
         RestartVotingDialogComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    ], imports: [BrowserModule,
         AppRoutingModule,
         FormsModule,
         BrowserAnimationsModule,
