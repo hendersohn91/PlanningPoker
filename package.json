@@ -7,8 +7,6 @@
     "start-api": "python3 api/api.py",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
     "update": "ncu -u"
   },
   "private": true,
@@ -36,7 +34,6 @@
     "@angular/compiler-cli": "^21.1.1",
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.14.8",
-    "codelyzer": "^6.0.2",
     "jasmine-core": "~5.3.0",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.4",
@@ -44,9 +41,7 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
-    "protractor": "~7.0.0",
     "ts-node": "~10.9.2",
-    "tslint": "~6.1.0",
     "typescript": "^5.9.3"
   }
 }
