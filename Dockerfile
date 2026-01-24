@@ -3,8 +3,11 @@ FROM node:22-alpine
 ARG http_proxy
 ARG https_proxy
 
-WORKDIR /app/PlanningPoker
-COPY . .
-RUN npm install --omit=dev
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-ENTRYPOINT ["npm", "start"]
+WORKDIR /app/PlanningPoker
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile --prod
+COPY . .
+
+ENTRYPOINT ["pnpm", "start"]
