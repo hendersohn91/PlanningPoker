@@ -1,4 +1,4 @@
-FROM node:22.14-alpine
+FROM node:22-alpine
 
 ARG http_proxy
 ARG https_proxy
