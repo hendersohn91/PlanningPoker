@@ -20,5 +20,6 @@ services:
         volumes:
             - ./api/api.py:/usr/src/app/api.py
             - ./data/:/usr/src/app/data
+            - ./api/demo/:/usr/src/app/demo
             - ./src/assets/poker-config.json:/usr/src/app/src/assets/poker-config.json
 

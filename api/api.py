@@ -26,7 +26,7 @@ clients = []
 revealedStories = []
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='data/python.log', filemode='a', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # angular calls this
 @app.route('/api/socket')
@@ -79,8 +79,16 @@ def test_disconnect():
 data_storage_filename = 'data/data.json'
 poker_config_filename = 'src/assets/poker-config.json'
 api_config_filename = 'data/api-config.json'
+is_demo_mode = False
+
+# Check if api-config.json exists in data/, otherwise use demo/
+if not os.path.isfile(api_config_filename):
+    logger.info('data/api-config.json not found, using demo mode')
+    is_demo_mode = True
+    data_storage_filename = 'demo/data.json'
+
 users = []
-config = []
+config = {}
 
 jiraUsername = ''
 jiraPassword = ''
@@ -92,13 +100,15 @@ if os.path.isfile(data_storage_filename):
         if (data_storage):
             users = ast.literal_eval(data_storage)
 
-logger.info('Reading config from ' + api_config_filename)
-with open(api_config_filename) as f:
-    config = ast.literal_eval(f.read())
-    if 'jiraUsername' in config:
-        jiraUsername = config['jiraUsername']
-    if 'jiraPassword' in config:
-        jiraPassword = config['jiraPassword']
+# Read api-config.json only if not in demo mode
+if not is_demo_mode:
+    logger.info('Reading config from ' + api_config_filename)
+    with open(api_config_filename) as f:
+        config = ast.literal_eval(f.read())
+        if 'jiraUsername' in config:
+            jiraUsername = config['jiraUsername']
+        if 'jiraPassword' in config:
+            jiraPassword = config['jiraPassword']
 
 logger.info('Reading config from ' + poker_config_filename)
 with open(poker_config_filename) as f:
@@ -295,7 +305,7 @@ def jira_pokerlist():
 
 def get_pokerlist_from_jira():
     jiraStoryAttributesWhiteList = ['key', 'summary', 'description']
-    if jiraPassword and jiraUsername:
+    if not is_demo_mode:
         # load
         proxyDict = {}
         if 'proxy' in config:
@@ -313,8 +323,9 @@ def get_pokerlist_from_jira():
         jsonResponse = json.loads(jiraResponse.text)
     else:
         # mock jiraResponse
-        logger.info('mock jira pokerlist from data/search.json')
-        with open('data/search.json') as json_file:
+        mock_search_file = 'demo/search.json'
+        logger.info('mock jira pokerlist from ' + mock_search_file)
+        with open(mock_search_file) as json_file:
             jsonResponse = json.load(json_file)
 
     resultList = []

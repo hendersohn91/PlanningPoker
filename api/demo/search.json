@@ -1,0 +1,78 @@
+{
+    "expand": "schema,names",
+    "startAt": 0,
+    "maxResults": 50,
+    "total": 5,
+    "issues": [
+        {
+            "expand": "renderedFields",
+            "id": "10001",
+            "self": "https://myjira.com/rest/api/2/issue/10001",
+            "key": "DUMMY-101",
+            "fields": {
+                "summary": "Improve the login functionality",
+                "description": "Enhance the existing login functionality to support multi-factor authentication."
+            },
+            "renderedFields": {
+                "summary": "Improve the login functionality",
+                "description": "<p>Enhance the existing login functionality to support multi-factor authentication.</p>"
+            }
+        },
+        {
+            "expand": "renderedFields",
+            "id": "10002",
+            "self": "https://myjira.com/rest/api/2/issue/10002",
+            "key": "DUMMY-102",
+            "fields": {
+                "summary": "Fix bug in user registration",
+                "description": "Resolve the issue where users are unable to register when using specific email domains."
+            },
+            "renderedFields": {
+                "summary": "Fix bug in user registration",
+                "description": "<p>Resolve the issue where users are unable to register when using specific email domains.</p>"
+            }
+        },
+        {
+            "expand": "renderedFields",
+            "id": "10003",
+            "self": "https://myjira.com/rest/api/2/issue/10003",
+            "key": "DUMMY-103",
+            "fields": {
+                "summary": "Implement search functionality",
+                "description": "Develop a search feature to allow users to find specific data based on keywords."
+            },
+            "renderedFields": {
+                "summary": "Implement search functionality",
+                "description": "<p>Develop a search feature to allow users to find specific data based on keywords.</p>"
+            }
+        },
+        {
+            "expand": "renderedFields",
+            "id": "10004",
+            "self": "https://myjira.com/rest/api/2/issue/10004",
+            "key": "DUMMY-104",
+            "fields": {
+                "summary": "Update user profile page",
+                "description": "Redesign the user profile page to improve the layout and add additional fields."
+            },
+            "renderedFields": {
+                "summary": "Update user profile page",
+                "description": "<p>Redesign the user profile page to improve the layout and add additional fields.</p>"
+            }
+        },
+        {
+            "expand": "renderedFields",
+            "id": "10005",
+            "self": "https://myjira.com/rest/api/2/issue/10005",
+            "key": "DUMMY-105",
+            "fields": {
+                "summary": "Add new notification system",
+                "description": "Create a real-time notification system to alert users about important events."
+            },
+            "renderedFields": {
+                "summary": "Add new notification system",
+                "description": "<p>Create a real-time notification system to alert users about important events.</p>"
+            }
+        }
+    ]
+}
