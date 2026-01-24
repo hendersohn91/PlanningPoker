@@ -1,58 +1,74 @@
 <mat-expansion-panel>
-    <mat-expansion-panel-header [collapsedHeight]="headerHeight" [expandedHeight]="headerHeight">
-        <mat-panel-title>{{story.key}}</mat-panel-title>
-        <mat-panel-description>
-            {{story.summary}}
-            <div>
-                <mat-icon *ngIf="story.note" [title]="story.note">comment</mat-icon>
-                <button mat-mini-fab *ngIf="story.points">{{story.points}}</button>
-            </div>
-        </mat-panel-description>
-    </mat-expansion-panel-header>
-    <mat-grid-list [cols]="2" [rowHeight]="descriptionHeaderRowHeight" class="story-description-header">
+  <mat-expansion-panel-header [collapsedHeight]="headerHeight" [expandedHeight]="headerHeight">
+    <mat-panel-title>{{story.key}}</mat-panel-title>
+    <mat-panel-description>
+      {{story.summary}}
+      <div>
+        @if (story.note) {
+          <mat-icon [title]="story.note">comment</mat-icon>
+        }
+        @if (story.points) {
+          <button mat-mini-fab>{{story.points}}</button>
+        }
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-grid-list [cols]="2" [rowHeight]="descriptionHeaderRowHeight" class="story-description-header">
+    <mat-grid-tile>
+      <a mat-raised-button [href]="jiraUrl" target="_blank">Open in Jira</a>
+      <button mat-raised-button (click)="openAddNodeDialog()">Set Note</button>
+      @if (story.points && !story.revealed) {
+        <button mat-raised-button color="accent"
+          (click)="sendMsgToShowPokerResults()">
+          Show Results
+        </button>
+      }
+      @if (story.revealed) {
+        <button mat-raised-button color="accent"
+          (click)="sendMsgToHidePokerResults()">
+          Restart Voting
+        </button>
+      }
+    </mat-grid-tile>
+    @if (!story.revealed) {
+      <mat-grid-tile>
+        <mat-card-content>
+          <mat-button-toggle-group name="storypoints-{{story.key}}"
+            [(ngModel)]="story.points">
+            @for (storyPoints of validStoryPoints; track storyPoints) {
+              <mat-button-toggle
+                value="{{storyPoints}}"
+                [class.async]="story.async && storyPoints == story.points"
+              (click)="userService.updateStoryAtServer(story); story.async = true;">{{storyPoints}}</mat-button-toggle>
+            }
+          </mat-button-toggle-group>
+          <br>
+            @if (story.activePokerUsers.length) {
+              <div>{{story.activePokerUsers.length}} votes:
+              {{story.activePokerUsers.join(', ')}}</div>
+            }
+          </mat-card-content>
+        </mat-grid-tile>
+      }
+      @if (story.revealed) {
         <mat-grid-tile>
-            <a mat-raised-button [href]="jiraUrl" target="_blank">Open in Jira</a>
-            <button mat-raised-button (click)="openAddNodeDialog()">Set Note</button>
-            <button *ngIf="story.points && !story.revealed" mat-raised-button color="accent"
-                    (click)="sendMsgToShowPokerResults()">
-                Show Results
-            </button>
-            <button *ngIf="story.revealed" mat-raised-button color="accent"
-                    (click)="sendMsgToHidePokerResults()">
-                Restart Voting
-            </button>
+          <table mat-table [dataSource]="revealedStoryPoints" class="mat-elevation-z8">
+            <ng-container matColumnDef="note">
+              <td mat-cell *matCellDef="let element"> @if (element.note) {
+                <mat-icon [title]="element.note">comment</mat-icon>
+              } </td>
+            </ng-container>
+            <ng-container matColumnDef="username">
+              <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            </ng-container>
+            <ng-container matColumnDef="storyPoints">
+              <td mat-cell *matCellDef="let element"> {{element.storyPoints}} </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
         </mat-grid-tile>
-        <mat-grid-tile *ngIf="!story.revealed">
-            <mat-card-content>
-                <mat-button-toggle-group name="storypoints-{{story.key}}"
-                                         [(ngModel)]="story.points">
-                    <mat-button-toggle
-                        value="{{storyPoints}}"
-                        [class.async]="story.async && storyPoints == story.points"
-                        *ngFor="let storyPoints of validStoryPoints"
-                        (click)="userService.updateStoryAtServer(story); story.async = true;">{{storyPoints}}</mat-button-toggle>
-                </mat-button-toggle-group>
-                <br>
-                <div *ngIf="story.activePokerUsers.length">{{story.activePokerUsers.length}} votes:
-                    {{story.activePokerUsers.join(', ')}}</div>
-            </mat-card-content>
-        </mat-grid-tile>
-        <mat-grid-tile *ngIf="story.revealed">
-            <table mat-table [dataSource]="revealedStoryPoints" class="mat-elevation-z8">
-                <ng-container matColumnDef="note">
-                    <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="element.note" [title]="element.note">comment</mat-icon> </td>
-                </ng-container>
-                <ng-container matColumnDef="username">
-                    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-                </ng-container>
-                <ng-container matColumnDef="storyPoints">
-                    <td mat-cell *matCellDef="let element"> {{element.storyPoints}} </td>
-                </ng-container>
-
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </mat-grid-tile>
+      }
     </mat-grid-list>
     <mat-divider></mat-divider>
     <p [innerHTML]="story.description" class="story-description-jira"></p>
-</mat-expansion-panel>
+  </mat-expansion-panel>

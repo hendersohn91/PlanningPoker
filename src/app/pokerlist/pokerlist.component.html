@@ -1,18 +1,25 @@
 <div class="pokerlist">
-    <div *ngIf="jiraPokerListLoading">
-        loading poker list from jira, please wait
-        <mat-progress-bar mode="buffer"></mat-progress-bar>
+  @if (jiraPokerListLoading) {
+    <div>
+      loading poker list from jira, please wait
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
     </div>
-    <div *ngIf="jiraPokerList.length === 0 && !jiraPokerListLoading">
-        no entries
-        <div class="pyro">
-            <div class="before"></div>
-            <div class="after"></div>
-        </div>
+  }
+  @if (jiraPokerList.length === 0 && !jiraPokerListLoading) {
+    <div>
+      no entries
+      <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+      </div>
     </div>
-    <mat-accordion *ngIf="!jiraPokerListLoading && jiraPokerList.length > 0">
+  }
+  @if (!jiraPokerListLoading && jiraPokerList.length > 0) {
+    <mat-accordion>
+      @for (currentStory of jiraPokerList; track currentStory) {
         <app-jira-story
-            *ngFor="let currentStory of jiraPokerList"
-            [story]="currentStory"></app-jira-story>
+        [story]="currentStory"></app-jira-story>
+      }
     </mat-accordion>
+  }
 </div>

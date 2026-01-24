@@ -1,11 +1,15 @@
 <mat-toolbar>
-    <div *ngIf="authService.isLoggedIn.value" class="global-toolbar">
-        <span>Hello {{authService.activeUser.value.username}}</span>
-        <span class="toolbar-spacer"></span>
-        <button mat-icon-button aria-label="Logout" (click)="authService.logout()">
-            <mat-icon>logout</mat-icon>
-        </button>
+  @if (authService.isLoggedIn.value) {
+    <div class="global-toolbar">
+      <span>Hello {{authService.activeUser.value.username}}</span>
+      <span class="toolbar-spacer"></span>
+      <button mat-icon-button aria-label="Logout" (click)="authService.logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
     </div>
-    <span *ngIf="!authService.isLoggedIn.value">Login</span>
+  }
+  @if (!authService.isLoggedIn.value) {
+    <span>Login</span>
+  }
 </mat-toolbar>
 <router-outlet></router-outlet>

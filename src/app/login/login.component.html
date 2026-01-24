@@ -1,24 +1,30 @@
-<form *ngIf="loadedUserData" (ngSubmit)="loginPokerUser()">
+@if (loadedUserData) {
+  <form (ngSubmit)="loginPokerUser()">
     <mat-grid-list cols="1" rowHeight="80px">
-        <mat-grid-tile>
-            <mat-form-field>
-                <mat-label>Wie heißt du?</mat-label>
-                <input matInput type="text" required minlength="3" name="username" id="username"
-                       aria-label="username" [matAutocomplete]="autoUsernames" [formControl]="myFormControl"
-                       [(ngModel)]="username"/>
-                <mat-autocomplete #autoUsernames="matAutocomplete">
-                    <mat-option *ngFor="let optionUsername of filteredUsernameOptions | async" [value]="optionUsername">
-                        {{optionUsername}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button color="primary" type="submit">Login</button>
-        </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Wie heißt du?</mat-label>
+          <input matInput type="text" required minlength="3" name="username" id="username"
+            aria-label="username" [matAutocomplete]="autoUsernames" [formControl]="myFormControl"
+            [(ngModel)]="username"/>
+          <mat-autocomplete #autoUsernames="matAutocomplete">
+            @for (optionUsername of filteredUsernameOptions | async; track optionUsername) {
+              <mat-option [value]="optionUsername">
+                {{optionUsername}}
+              </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button color="primary" type="submit">Login</button>
+      </mat-grid-tile>
     </mat-grid-list>
-</form>
-<div *ngIf="!loadedUserData">
+  </form>
+}
+@if (!loadedUserData) {
+  <div>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     connect to server, please wait
-</div>
+  </div>
+}
